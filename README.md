@@ -1,3 +1,8 @@
+![GitHub release](https://img.shields.io/github/v/release/MuraliKulkarni14/LocalAudioVideoTranscriber)
+![GitHub Downloads](https://img.shields.io/github/downloads/MuraliKulkarni14/LocalAudioVideoTranscriber/total)
+![License](https://img.shields.io/github/license/MuraliKulkarni14/LocalAudioVideoTranscriber)
+
+
 # LocalAudioVideoTranscriber
 
 Fast, offline AI-powered audio and video transcription for Windows using **faster-whisper**.
