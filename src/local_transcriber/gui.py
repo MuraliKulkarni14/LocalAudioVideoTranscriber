@@ -17,7 +17,7 @@ try:
         transcribe_file,
     )
 except ImportError:
-    from transcribe import (
+    from local_transcriber.transcribe import (
         DEFAULT_MODEL,
         DEFAULT_OUTPUT_DIR,
         MODEL_CHOICES,
