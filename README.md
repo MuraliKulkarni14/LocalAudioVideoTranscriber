@@ -1,148 +1,212 @@
-# Local Audio & Video Transcriber
+# LocalAudioVideoTranscriber
 
-A lightweight, local-first Windows desktop app for converting meeting recordings
-and media files into raw transcripts.
+Fast, offline AI-powered audio and video transcription for Windows using **faster-whisper**.
 
-The app runs a Whisper-compatible model locally through `faster-whisper`. It is
-designed for workflows like turning Zoom recordings into transcript files that
-can be searched, cleaned up, summarized, or used later in other tools.
+Convert recordings into searchable transcripts and subtitle files without uploading your data to any cloud service.
+
+> **Privacy First:** All transcription is performed locally on your computer.
+
+---
+
+## Screenshot
+
+> Add a screenshot here once available.
+
+```text
+docs/screenshots/main-window.png
+```
+
+---
 
 ## Features
 
-- Desktop UI with file picker, output folder picker, and transcript preview
-- System, light, and dark themes
-- Progress bar and live segment log during transcription
-- Local audio/video transcription with `faster-whisper`
-- Outputs `.txt`, `.srt`, `.vtt`, and `.json`
-- Choose model size, language, task, runtime device, and compute type
-- CLI mode for scripted use
-- Local-first workflow with no paid transcription API
+- 🎙️ Local audio and video transcription
+- 🔒 Fully offline after the selected model is downloaded
+- 📄 Export transcripts as **TXT**, **SRT**, **VTT**, and **JSON**
+- 🖥️ Modern desktop interface with light, dark, and system themes
+- 📈 Live transcription progress and transcript preview
+- ⚙️ Choose Whisper model, language, task, device, and compute type
+- 💻 Command-line interface for scripting and automation
+- 🚫 No paid APIs or cloud transcription services
+
+---
+
+## Supported Formats
+
+### Input
+
+- MP3
+- WAV
+- FLAC
+- M4A
+- AAC
+- OGG
+- MP4
+- MKV
+- MOV
+- AVI
+
+### Output
+
+- TXT
+- SRT
+- VTT
+- JSON
+
+---
 
 ## Privacy
 
-Media files are processed locally. The app does not upload audio or video to a
-transcription service.
+Media files are processed entirely on your local machine.
 
-On first use, the selected model may be downloaded from Hugging Face and cached
-on your machine. After the model is cached, transcription runs locally.
+The application does **not** upload your files to any transcription service.
+
+The selected Whisper model is downloaded once from Hugging Face and cached locally. After that, all transcription runs offline.
+
+---
 
 ## Requirements
 
 - Windows 10 or newer
-- Python 3.11 or newer
-- Enough disk space for Whisper model files and transcript outputs
+- Python 3.11+
+- Internet connection only for the first model download
 
-GPU acceleration through this backend is CUDA-focused. NVIDIA CUDA systems can
-use `--device cuda`; AMD Radeon systems generally fall back to CPU for now. An
-AMD/Vulkan-friendly backend is on the roadmap.
+### GPU Support
 
-## Setup
+- ✅ NVIDIA CUDA
+- ✅ CPU
+- 🚧 AMD GPU support planned
 
-Install Python from:
+---
 
-https://www.python.org/downloads/windows/
+# Installation
 
-During installation, enable:
+Clone the repository.
 
-```text
-Add python.exe to PATH
+```bash
+git clone https://github.com/MuraliKulkarni14/LocalAudioVideoTranscriber.git
+
+cd LocalAudioVideoTranscriber
 ```
 
-Then open PowerShell in this folder and run:
+Create a virtual environment.
 
 ```powershell
 python -m venv .venv
+
 .\.venv\Scripts\Activate.ps1
+
 python -m pip install --upgrade pip
+
 pip install -r requirements.txt
 ```
 
-## Run The Desktop App
+---
+
+# Run the Desktop Application
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
 python .\src\local_transcriber\gui.py
 ```
 
-Choose your Zoom recording or exported audio/video file, pick an output folder,
-and press `Start Transcription`.
+Select a media file, choose an output directory, and start transcription.
 
-## CLI Usage
+---
 
-Interactive mode:
+# Command-Line Usage
+
+Interactive mode
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
 python .\src\local_transcriber\transcribe.py
 ```
 
-Direct file mode:
+Single file
 
 ```powershell
-python .\src\local_transcriber\transcribe.py "C:\path\to\video.mp4"
+python .\src\local_transcriber\transcribe.py "C:\Videos\meeting.mp4"
 ```
 
-Useful examples:
+Example
 
 ```powershell
-python .\src\local_transcriber\transcribe.py "C:\path\to\file.mp4" --model medium
-python .\src\local_transcriber\transcribe.py "C:\path\to\file.mp4" --language en
-python .\src\local_transcriber\transcribe.py "C:\path\to\file.mp4" --task translate
-python .\src\local_transcriber\transcribe.py "C:\path\to\file.mp4" --output-dir "C:\path\to\transcripts"
+python .\src\local_transcriber\transcribe.py `
+"C:\Videos\meeting.mp4" `
+--model medium `
+--language en `
+--output-dir "C:\Output"
 ```
 
-Force CUDA, if you have a supported NVIDIA GPU:
+CUDA
 
 ```powershell
-python .\src\local_transcriber\transcribe.py "C:\path\to\file.mp4" --device cuda --compute-type float16
+python .\src\local_transcriber\transcribe.py `
+"C:\Videos\meeting.mp4" `
+--device cuda `
+--compute-type float16
 ```
 
-Force CPU:
+CPU
 
 ```powershell
-python .\src\local_transcriber\transcribe.py "C:\path\to\file.mp4" --device cpu --compute-type int8
+python .\src\local_transcriber\transcribe.py `
+"C:\Videos\meeting.mp4" `
+--device cpu `
+--compute-type int8
 ```
 
-## Model Notes
+---
 
-Good starting choices:
+# Whisper Models
 
-- `small`: faster, lower accuracy
-- `medium`: stronger balance for many meeting recordings
-- `large-v3`: best accuracy, slower and larger
+| Model | Speed | Accuracy |
+|------|------|------|
+| Small | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Medium | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Large-v3 | ⭐⭐ | ⭐⭐⭐⭐⭐ |
 
-By default the app uses `--device auto` and `--compute-type auto`. It selects
-CUDA with `float16` when available, otherwise CPU with `int8`.
+---
 
-## Packaging
-
-Install packaging dependencies and build the Windows app:
+# Build From Source
 
 ```powershell
 .\scripts\build_windows.ps1 -Clean
 ```
 
-The packaged app is created at:
+The executable will be generated in
 
 ```text
-dist\LocalTranscriber\LocalTranscriber.exe
+dist\LocalTranscriber\
 ```
 
-For more detail, see [docs/PACKAGING.md](docs/PACKAGING.md).
+---
 
-## GitHub Release Notes
+# Roadmap
 
-See [docs/GITHUB_RELEASE.md](docs/GITHUB_RELEASE.md) for a release checklist and
-copy-ready release note template.
-
-## Roadmap
-
-- Drag-and-drop file selection
+- Drag-and-drop support
 - Batch transcription
 - Speaker diarization
-- AMD-friendly GPU processing with Vulkan
-- Signed Windows release build
+- AMD/Vulkan acceleration
+- Signed Windows releases
 
-## License
+---
 
-MIT. See [LICENSE](LICENSE).
+# Third-Party Software
+
+This project uses:
+
+- faster-whisper
+- CTranslate2
+- FFmpeg
+- Whisper models from OpenAI
+- whisper.cpp (bundled for future/native support)
+
+Please refer to their respective licenses.
+
+---
+
+# License
+
+Released under the MIT License.
+
+See the [LICENSE](LICENSE) file for details.
