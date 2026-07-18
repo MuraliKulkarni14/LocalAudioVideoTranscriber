@@ -15,11 +15,8 @@ Convert recordings into searchable transcripts and subtitle files without upload
 
 ## Screenshot
 
-> Add a screenshot here once available.
+<img width="976" height="751" alt="image" src="https://github.com/user-attachments/assets/7af90e02-94cc-47a3-870e-91783d6be429" />
 
-```text
-docs/screenshots/main-window.png
-```
 
 ---
 
